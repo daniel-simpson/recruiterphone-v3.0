@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "clean": "npx rimraf dist/*",
+    "prebuild": "npm run clean",
     "test": "tsc --noEmit",
     "start": "twilio-run --functions-folder dist/functions --assets-folder dist/assets",
     "deploy": "twilio-run deploy --functions-folder dist/functions --assets-folder dist/assets",
