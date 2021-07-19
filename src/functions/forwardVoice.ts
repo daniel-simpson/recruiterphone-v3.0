@@ -1,13 +1,23 @@
 import "@twilio-labs/serverless-runtime-types";
 
-import { CallHandler, GetFromPhoneNumber, SendTextMessage } from "../twilio";
+import { CallHandler } from "../twilio";
 
 export const handler: CallHandler = function (context, event, callback) {
 
-  const from = GetFromPhoneNumber(context, event);
+  const from = event.From && event.From.length > 0 ? event.From : context.TWILIO_PHONE;
   if(from !== context.TWILIO_PHONE) {
     // TODO: v3: add caller ID to incoming calls
-    SendTextMessage(context, event, `New incoming call from ${from}`)
+
+    const from = event.From && event.From.length > 0 ? event.From : context.TWILIO_PHONE;
+
+    context
+      .getTwilioClient()
+      .messages.create({
+        from,
+        to: context.CLIENT_PHONE,
+        body: `New incoming call from ${from}`,
+      })
+      .catch((ex) => console.error(ex));
   }
 
   const twiml = new Twilio.twiml.VoiceResponse();

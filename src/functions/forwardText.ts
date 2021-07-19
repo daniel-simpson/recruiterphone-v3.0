@@ -1,6 +1,6 @@
 import "@twilio-labs/serverless-runtime-types";
 
-import { TextMessageHandler, SendTextMessage } from "../twilio";
+import { TextMessageHandler } from "../twilio";
 
 export const handler: TextMessageHandler = function (context, event, callback) {
   if (
@@ -14,10 +14,15 @@ export const handler: TextMessageHandler = function (context, event, callback) {
     return;
   }
 
-  const message = `FWD ${event.From}: ${event.Body}`;
+  const tmiwl = new Twilio.twiml.MessagingResponse();
+
+  const from = event.From && event.From.length > 0 ? event.From : context.TWILIO_PHONE;
+  
+  tmiwl.message({
+    to: context.CLIENT_PHONE,
+  }, `FWD ${event.From}: ${event.Body}`);
 
   // TODO V2: Log this message to Airtable
 
-  SendTextMessage(context, event, message);
-  callback(null, "OK");
+  callback(null, tmiwl);
 };

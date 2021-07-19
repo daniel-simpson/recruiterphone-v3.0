@@ -1,5 +1,5 @@
 import "@twilio-labs/serverless-runtime-types";
-import { VoicemailHandler, SendTextMessage } from "../twilio";
+import { VoicemailHandler } from "../twilio";
 
 export const handler: VoicemailHandler = function (context, event, callback) {
   if (
@@ -21,7 +21,15 @@ export const handler: VoicemailHandler = function (context, event, callback) {
   }
 
   // TODO V2: Log this voicemail message to Airtable
+  const from = event.From && event.From.length > 0 ? event.From : context.TWILIO_PHONE;
 
-  SendTextMessage(context, event, message);
-  callback(null, "OK");
+  context
+    .getTwilioClient()
+    .messages.create({
+      from: context.TWILIO_PHONE,
+      to: context.CLIENT_PHONE,
+      body: message,
+    })
+    .catch((ex) => console.error(ex))
+    .then(_ => callback(null, "OK"));
 };
