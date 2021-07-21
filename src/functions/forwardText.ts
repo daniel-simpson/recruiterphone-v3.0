@@ -1,7 +1,7 @@
 import "@twilio-labs/serverless-runtime-types";
 import Airtable from "airtable";
 
-import { TextMessageHandler } from "../twilio";
+import { TextMessageHandler } from "../lib/twilio";
 
 export const handler: TextMessageHandler = async function (context, event, callback) {
   if (

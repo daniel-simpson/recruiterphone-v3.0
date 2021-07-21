@@ -1,6 +1,6 @@
 import "@twilio-labs/serverless-runtime-types";
 
-import { CallHandler } from "../twilio";
+import { CallHandler } from "../lib/twilio";
 
 // V1: take voicemail if function is running, redirect to main phone (no need for two phones) if not
 export const handler: CallHandler = function (context, event, callback) {

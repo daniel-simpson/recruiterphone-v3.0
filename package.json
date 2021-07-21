@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "npx rimraf dist/*",
     "prebuild": "npm run clean",
-    "build": "tsc && npm run build:copy-assets",
+    "build": "webpack --mode=development && npm run build:copy-assets",
     "build:copy-assets": "copyfiles src/assets/* src/assets/**/* --up 2 --exclude **/*.ts dist/assets/",
     "test": "tsc --noEmit",
     "prestart": "npm run build",
@@ -22,8 +22,12 @@
   "devDependencies": {
     "@types/airtable": "^0.10.1",
     "copyfiles": "^2.2.0",
+    "ts-loader": "^9.2.3",
     "twilio-run": "^2.6.0",
-    "typescript": "^3.8"
+    "typescript": "^3.9.10",
+    "webpack": "^5.45.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-node-externals": "^3.0.0"
   },
   "engines": {
     "node": "10"
