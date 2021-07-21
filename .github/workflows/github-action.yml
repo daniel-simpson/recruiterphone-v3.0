@@ -1,0 +1,34 @@
+on:
+  push:
+    branches: [main]
+
+env:
+  NODE_VERSION: '10.x' # set this to the node version to use
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: npm install
+        run: |
+          npm i
+      - name: 'Deploying to Twilio'
+        env:
+          ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
+          AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          TWILIO_PHONE: ${{ secrets.TWILIO_PHONE }}
+          CLIENT_PHONE: ${{ secrets.CLIENT_PHONE }}
+          VOICEMAIL_MESSAGE: ${{ secrets.VOICEMAIL_MESSAGE }}
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_COMMS_TABLE_NAME: ${{ secrets.AIRTABLE_COMMS_TABLE_NAME }}
+          AIRTABLE_CONTACTS_TABLE_NAME: ${{ secrets.AIRTABLE_CONTACTS_TABLE_NAME }}
+          AIRTABLE_CONTACTS_PHONE_FIELD_NAME: ${{ secrets.AIRTABLE_CONTACTS_PHONE_FIELD_NAME }}
+        run: |
+          npm run ci:deploy -- --account-sid=$ACCOUNT_SID --auth-token=$AUTH_TOKEN

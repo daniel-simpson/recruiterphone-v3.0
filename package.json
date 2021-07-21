@@ -5,20 +5,21 @@
   "scripts": {
     "clean": "npx rimraf dist/*",
     "prebuild": "npm run clean",
-    "test": "tsc --noEmit",
-    "start": "twilio-run --functions-folder dist/functions --assets-folder dist/assets",
-    "deploy": "twilio-run deploy --functions-folder dist/functions --assets-folder dist/assets",
     "build": "tsc && npm run build:copy-assets",
     "build:copy-assets": "copyfiles src/assets/* src/assets/**/* --up 2 --exclude **/*.ts dist/assets/",
+    "test": "tsc --noEmit",
     "prestart": "npm run build",
-    "predeploy": "npm run build"
+    "start": "twilio-run --functions-folder dist/functions --assets-folder dist/assets",
+    "predeploy": "npm run build",
+    "deploy": "twilio-run deploy --functions-folder dist/functions --assets-folder dist/assets",
+    "ci:deploy": "npm run deploy -- --environment=prod --load-system-env --env .env.production --override-existing-project"
   },
   "dependencies": {
-    "@twilio-labs/serverless-runtime-types": "^1.1",
     "airtable": "^0.11.1",
     "twilio": "^3.56"
   },
   "devDependencies": {
+    "@twilio-labs/serverless-runtime-types": "^1.1",
     "@types/airtable": "^0.10.1",
     "copyfiles": "^2.2.0",
     "twilio-run": "^2.6.0",
