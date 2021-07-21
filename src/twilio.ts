@@ -1,6 +1,5 @@
 import {
   ServerlessFunctionSignature,
-  Context,
 } from "@twilio-labs/serverless-runtime-types/types";
 
 export type EnvironmentVariables = {
