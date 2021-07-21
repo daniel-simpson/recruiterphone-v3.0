@@ -1,6 +1,6 @@
 import "@twilio-labs/serverless-runtime-types";
 
-import { CallHandler } from "../twilio";
+import { CallHandler } from "../lib/twilio";
 
 export const handler: CallHandler = async function (context, event, callback) {
 

@@ -1,5 +1,5 @@
 import "@twilio-labs/serverless-runtime-types";
-import { VoicemailHandler } from "../twilio";
+import { VoicemailHandler } from "../lib/twilio";
 
 export const handler: VoicemailHandler = function (context, event, callback) {
   if (
