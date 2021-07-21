@@ -12,7 +12,7 @@ export const handler: CallHandler = async function (context, event, callback) {
       .getTwilioClient()
       .messages.create({
         from,
-        to: context.CLIENT_PHONE,
+        to: context.CLIENT_PHONE.replace("+",""),
         body: `New incoming call from ${from}`,
       })
       .catch((ex) => console.error(ex));
