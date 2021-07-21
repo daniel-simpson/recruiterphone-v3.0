@@ -1,7 +1,7 @@
 import "@twilio-labs/serverless-runtime-types";
-import Airtable from "airtable";
 
 import { TextMessageHandler } from "../lib/twilio";
+import { getContactName } from "../lib/airtable";
 
 export const handler: TextMessageHandler = async function (context, event, callback) {
   if (
@@ -15,15 +15,9 @@ export const handler: TextMessageHandler = async function (context, event, callb
     return;
   }
 
-  const contacts = await Airtable.base(context.AIRTABLE_BASE_ID)
-    (context.AIRTABLE_CONTACTS_TABLE_NAME)
-    .select({ filterByFormula: `{${context.AIRTABLE_CONTACTS_PHONE_FIELD_NAME}} = '${event.From}'` })
-    .all()
+  const contactName = await getContactName(context, event.From);
 
-  console.log("Contacts", contacts);
-
-  const from = contacts.length > 0 ? `${contacts.map(x => x.fields.Name).join()} (${event.From})` : event.From;
-  const message = `From ${from}: ${event.Body}`
+  const message = `From ${contactName}: ${event.Body}`
 
   const tmiwl = new Twilio.twiml.MessagingResponse();
 

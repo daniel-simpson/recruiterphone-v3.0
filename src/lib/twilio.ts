@@ -1,4 +1,5 @@
 import {
+  Context,
   ServerlessFunctionSignature,
 } from "@twilio-labs/serverless-runtime-types/types";
 
@@ -46,3 +47,19 @@ export type TextMessageHandler = ServerlessFunctionSignature<
   EnvironmentVariables,
   TextMessageEvent
 >;
+
+export type OutboundTextMessage = {
+  from?: string;
+  to: string;
+  body: string;
+}
+
+export const SendTextMessage = async (context: Context<EnvironmentVariables>, messageDetails: OutboundTextMessage) => {
+  return await context
+    .getTwilioClient()
+    .messages.create({
+      from: context.TWILIO_PHONE,
+      ...messageDetails
+    })
+    .catch((ex: any) => console.error(ex));
+}
