@@ -7,6 +7,12 @@ export type EnvironmentVariables = {
   CLIENT_PHONE: string;
   TWILIO_PHONE: string;
   VOICEMAIL_MESSAGE: string;
+
+  AIRTABLE_API_KEY: string;
+  AIRTABLE_BASE_ID: string;
+  AIRTABLE_COMMS_TABLE_NAME: string;
+  AIRTABLE_CONTACTS_TABLE_NAME: string;
+  AIRTABLE_CONTACTS_PHONE_FIELD_NAME: string;
 };
 
 export type CallEvent = {
